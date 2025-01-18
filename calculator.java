@@ -22,16 +22,15 @@ public class calculator extends JFrame {
         display.setFont(new Font("Arial", Font.BOLD, 24));
         display.setHorizontalAlignment(SwingConstants.RIGHT);
         display.setEditable(false);
-        display.setBackground(new Color(241, 241, 241)); // Ekran arka planı: #F1F1F1 (Pastel gri)
-        display.setForeground(new Color(51, 51, 51)); // Ekran yazı rengi: #333333 (Siyah)
+        display.setBackground(new Color(241, 241, 241)); 
+        display.setForeground(new Color(51, 51, 51)); 
         add(display, BorderLayout.NORTH);
-
-        // Tuşlar için panel
+      
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(4, 4, 5, 5)); // Tuşlar arasındaki boşluğu daraltalım
-        buttonPanel.setBackground(new Color(241, 241, 241)); // Panel arka planı da pastel gri
+        buttonPanel.setLayout(new GridLayout(4, 4, 5, 5)); 
+        buttonPanel.setBackground(new Color(241, 241, 241)); 
 
-        // Tuşlar
+        
         String[] buttons = {
                 "7", "8", "9", "/",
                 "4", "5", "6", "*",
@@ -41,9 +40,9 @@ public class calculator extends JFrame {
 
         for (String text : buttons) {
             JButton button = new RoundButton(text);
-            button.setFont(new Font("Arial", Font.BOLD, 16)); // Tuş boyutunu daha küçük yapmak için fontu değiştirdik
-            button.setBackground(new Color(168, 230, 207)); // Açık yeşil tonları: #A8E6CF
-            button.setForeground(Color.WHITE); // Tuş yazı rengi beyaz
+            button.setFont(new Font("Arial", Font.BOLD, 16)); 
+            button.setBackground(new Color(168, 230, 207)); 
+            button.setForeground(Color.WHITE); 
             button.addActionListener(new ButtonClickListener());
             buttonPanel.add(button);
         }
@@ -51,7 +50,7 @@ public class calculator extends JFrame {
         add(buttonPanel, BorderLayout.CENTER);
     }
 
-    // Yuvarlak buton sınıfı
+    
     static class RoundButton extends JButton {
         private static final long serialVersionUID = 1L;
 
@@ -63,7 +62,7 @@ public class calculator extends JFrame {
         @Override
         protected void paintComponent(Graphics g) {
             if (getModel().isArmed()) {
-                g.setColor(new Color(129, 199, 132)); // Koyu yeşil hover rengi: #81C784
+                g.setColor(new Color(129, 199, 132)); 
             } else {
                 g.setColor(getBackground());
             }
@@ -76,14 +75,14 @@ public class calculator extends JFrame {
             g.setColor(getForeground());
             g.drawOval(0, 0, getWidth() - 1, getHeight() - 1);
         }
-
+        
         @Override
         public Dimension getPreferredSize() {
-            return new Dimension(50, 50); // Tuş boyutunu daha da küçülttük
+            return new Dimension(50, 50); 
         }
     }
 
-    // Tuş işleyici
+    
     private class ButtonClickListener implements ActionListener {
 
         @Override
@@ -91,9 +90,9 @@ public class calculator extends JFrame {
             String command = e.getActionCommand();
 
             if ("0123456789".contains(command)) {
-                // Eğer son işlem yapıldıysa, yeni bir numara girilmeden önce ekranı temizleyelim
+                
                 if (calculating) {
-                    currentInput.setLength(0); // StringBuilder'ı sıfırlayarak temizle
+                    currentInput.setLength(0); 
                     calculating = false;
                 }
                 currentInput.append(command); // Sayıyı ekle
@@ -102,13 +101,13 @@ public class calculator extends JFrame {
                 if (!currentInput.toString().isEmpty()) {
                     num1 = Double.parseDouble(currentInput.toString());
                     operator = command;
-                    currentInput.append(" " + operator + " "); // İşlem kısmını ekle
+                    currentInput.append(" " + operator + " "); 
                     display.setText(currentInput.toString());
                 }
             } else if (command.equals("=")) {
                 if (!currentInput.toString().isEmpty()) {
-                    String[] parts = currentInput.toString().split(" "); // İşlem ve sayıları ayır
-                    double num2 = Double.parseDouble(parts[parts.length - 1]); // İkinci sayıyı al
+                    String[] parts = currentInput.toString().split(" "); 
+                    double num2 = Double.parseDouble(parts[parts.length - 1]); 
                     double result = 0;
 
                     switch (operator) {
@@ -118,18 +117,18 @@ public class calculator extends JFrame {
                         case "/": result = num2 != 0 ? num1 / num2 : 0; break;
                     }
 
-                    // Sonucun tam sayı olup olmadığını kontrol ediyoruz
+                    
                     if (result == (int) result) {
-                        currentInput.append(" = " + (int) result); // Tam sayı sonucu göster
+                        currentInput.append(" = " + (int) result); 
                     } else {
-                        currentInput.append(" = " + result); // Ondalık sonucu göster
+                        currentInput.append(" = " + result); 
                     }
 
-                    display.setText(currentInput.toString()); // Ekranı güncelle
+                    display.setText(currentInput.toString()); 
                     calculating = true;
                 }
             } else if (command.equals("C")) {
-                currentInput.setLength(0); // Temizleme işlemi
+                currentInput.setLength(0); 
                 operator = "";
                 num1 = 0;
                 calculating = false;
