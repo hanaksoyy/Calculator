@@ -5,19 +5,20 @@ import java.awt.event.ActionListener;
 
 public class calculator extends JFrame {
     private static final long serialVersionUID = 1L;
-    private JTextField display;
-    private double num1 = 0;
-    private String operator = "";
-    private StringBuilder currentInput = new StringBuilder();
-    private boolean calculating = false;
+    private JTextField display; // Text field to display the current input and result
+    private double num1 = 0; // First operand for calculations
+    private String operator = ""; // Stores the operator (+, -, *, /)
+    private StringBuilder currentInput = new StringBuilder(); // Holds the current input from the user
+    private boolean calculating = false; // Flag to check if the calculation is ongoing
 
+    // Set up the frame for the calculator
     public calculator() {
         setTitle("Calculator");
         setSize(400, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Ekran (Üst kısmı göstermek için)
+        // Display panel to show the current input and result
         display = new JTextField();
         display.setFont(new Font("Arial", Font.BOLD, 24));
         display.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -26,11 +27,12 @@ public class calculator extends JFrame {
         display.setForeground(new Color(51, 51, 51)); 
         add(display, BorderLayout.NORTH);
       
+        // Panel to hold the buttons
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(4, 4, 5, 5)); 
         buttonPanel.setBackground(new Color(241, 241, 241)); 
 
-        
+        // Define  the calculator buttons
         String[] buttons = {
                 "7", "8", "9", "/",
                 "4", "5", "6", "*",
@@ -38,6 +40,7 @@ public class calculator extends JFrame {
                 "C", "0", "=", "+"
         };
 
+        // Add the buttons to the panel
         for (String text : buttons) {
             JButton button = new RoundButton(text);
             button.setFont(new Font("Arial", Font.BOLD, 16)); 
@@ -50,7 +53,8 @@ public class calculator extends JFrame {
         add(buttonPanel, BorderLayout.CENTER);
     }
 
-    
+
+    // Custom button class to create buttons
     static class RoundButton extends JButton {
         private static final long serialVersionUID = 1L;
 
@@ -110,6 +114,7 @@ public class calculator extends JFrame {
                     double num2 = Double.parseDouble(parts[parts.length - 1]); 
                     double result = 0;
 
+                     // Perform the calculation based on the operator
                     switch (operator) {
                         case "+": result = num1 + num2; break;
                         case "-": result = num1 - num2; break;
@@ -127,7 +132,7 @@ public class calculator extends JFrame {
                     display.setText(currentInput.toString()); 
                     calculating = true;
                 }
-            } else if (command.equals("C")) {
+            } else if (command.equals("C")) {   // Clear button click
                 currentInput.setLength(0); 
                 operator = "";
                 num1 = 0;
